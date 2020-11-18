@@ -1,0 +1,60 @@
+---
+title: "contracts_eda"
+subtitle: "Brazilian Goverment Contracts Data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{contracts_eda}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message = FALSE,
+  warning = FALSE,
+  echo = FALSE
+)
+```
+
+```{r setup}
+library(tidytext)
+library(patchwork)
+library(rlang)
+library(janitor)
+library(reactable)
+library(sparkline)
+library(highcharter)
+library(skimr)
+
+library(comprasgov)
+```
+
+
+# Análise Exploratória
+
+Verificações importantes
+
+- **Coisas univariadas**
+  - Tipo correto das variáveis
+  - Colunas constantes
+  - Colunas quase constantes/categorias raras (principalmente da variávei resposta, é desbalanceada?)
+  - Alta cardinalidade (muitas categorias)
+  - Valores discrepantes (outliers)
+  - Valores faltantes (missings)
+  - Assimetria
+  - Escala
+- **Coisas multivariadas**
+  - Associação/correlação entre variáveis explicativas
+  - Combinações lineares entre explicativas
+  - Relação entre explicativas e resposta
+
+```{r }
+glimpse(compras_contracts)
+```
+
+```{r first_look}
+skim(compras_contracts)
+```
+
