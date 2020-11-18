@@ -1,13 +1,15 @@
 Package: comprasgov
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Código de análise para portal de compras do governo federal
 Version: 0.1.0
-Author: Who wrote it
+Author: Marco Arthur
 Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Description: Análise de dados do portal de compras do governo federal brasileiro
+    Utilizando técnicas de EDA.
+License: Perl License
 Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
 LazyData: true
 Suggests: 
     knitr,
