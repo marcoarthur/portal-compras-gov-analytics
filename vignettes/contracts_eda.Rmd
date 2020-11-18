@@ -27,6 +27,10 @@ library(reactable)
 library(sparkline)
 library(highcharter)
 library(skimr)
+library(naniar)
+library(ggalluvial)
+library(correlation)
+library(tidyverse)
 
 library(comprasgov)
 ```
@@ -39,7 +43,7 @@ Verificações importantes
 - **Coisas univariadas**
   - Tipo correto das variáveis
   - Colunas constantes
-  - Colunas quase constantes/categorias raras (principalmente da variávei resposta, é desbalanceada?)
+  - Colunas quase constantes/categorias raras (principalmente da variável resposta, é desbalanceada?)
   - Alta cardinalidade (muitas categorias)
   - Valores discrepantes (outliers)
   - Valores faltantes (missings)

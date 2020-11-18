@@ -15,7 +15,13 @@ compras_contracts <- compras_contracts <- read_csv("inst/contracts.csv") %>%
     filter( data_assinatura > '2000-01-01') %>%
     inner_join( modalidades, by = c( "modalidade_licitacao" = "codigo")) %>% 
     inner_join( tipos, by = c( "codigo_contrato" = "codigo")) %>%
-    select( -cnpj_contratada, -modalidade_licitacao , -codigo_contrato, -codigo_contrato )
+    select( -cnpj_contratada,
+           -modalidade_licitacao,
+           -identificador,
+           -numero_processo,
+           -codigo_contrato,
+           -uasg ) %>%
+    mutate(numero_aditivo = replace_na(numero_aditivo, 0))
 
 rm(tipos, modalidades)
 
