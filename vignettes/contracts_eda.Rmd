@@ -32,7 +32,8 @@ library(ggalluvial)
 library(correlation)
 library(tidyverse)
 
-library(comprasgov)
+# library(comprasgov)
+devtools::load_all()
 ```
 
 
@@ -61,4 +62,61 @@ glimpse(compras_contracts)
 ```{r first_look}
 skim(compras_contracts)
 ```
+
+## Sumário - Variáveis categóricas
+
+```{r}
+sumario_character <- compras_contracts %>%
+  select(where(is.character)) %>%
+  as.list() %>%
+  enframe( name = "variavel", value = "valores") %>%
+  mutate(
+         n_missing = map_dbl(valores, ~sum(is.na(.x))),
+         complete_rate = 1 - n_missing/map_dbl(valores, ~length(.x)),
+         min = map_dbl(valores, ~min(str_length(.x))),
+         max = map_dbl(valores, ~max(str_length(.x))),
+         n_unique = map_dbl(valores, ~n_distinct(.x))
+         )
+  sumario_character %>%
+    reactable(
+              wrap = FALSE,
+              resizable = TRUE,
+              fullWidth = TRUE,
+              defaultColDef = colDef(width = 60),
+              columns = list(
+                             valores = colDef(show = FALSE),
+                             variavel = colDef("Variável", minWidth = 230, width = 230)
+                             ),
+              details = function(index) {
+                variavel_chr <- sumario_character[index, "variavel", drop = TRUE]
+                compras_contracts %>%
+                  tabyl(!!sym(variavel_chr)) %>%
+                  reactable(columns = list(percent = colDef("%", format = colFormat(percent = TRUE, digits = 1 ))), width = 500)
+              }
+              )
+```
+
+# Sumarizando categorias
+
+Dados categóricos  (poucas categorias, abaixo de vinte). Distribuição discreta
+de cada valor categórico.
+
+```{r}
+cat_threshold <- 20
+categorias <- compras_contracts %>%
+  select(where( function(x) { is.character(x) && n_distinct(x) < cat_threshold }) )
+
+tabeling <- function(col) { categorias %>% summarise( fct_count(.data[[col]]) ) }
+count_tables <- names(categorias) %>% map(tabeling)
+
+plot_ctables <- function(ctable) { 
+  ctable %>% ggplot(aes(f,n)) +
+    geom_bar(stat = "identity") +
+    coord_flip()
+}
+
+graphs <- map(count_tables, plot_ctables)
+graphs
+```
+
 
